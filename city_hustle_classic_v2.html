@@ -1,0 +1,1161 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>City Hustle – Privat</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#000;color:#ddd;font-family:Arial,Helvetica,sans-serif;font-size:11px}
+body{min-height:100vh}
+#game{width:1000px;max-width:100%;margin:0 auto 60px;background:#000;border:1px solid #7b5924;box-shadow:0 0 0 1px #24180a}
+.top{height:96px;position:relative;background:
+ radial-gradient(circle at 72% 35%,rgba(137,110,44,.38),transparent 30%),
+ linear-gradient(90deg,#0a1207,#302711 45%,#111 100%);
+ border-bottom:3px solid #9a6a22;overflow:hidden}
+.top:before{content:"";position:absolute;inset:0;opacity:.28;background:repeating-linear-gradient(120deg,transparent 0 18px,#80642d 19px 20px)}
+.top h1{position:relative;margin:0;padding:25px 22px 0;color:#a8e32d;font:bold italic 38px Arial,sans-serif;letter-spacing:-3px;text-shadow:2px 2px 0 #101700,3px 3px 0 #5e7e13}
+.top small{position:relative;margin-left:24px;color:#d6b34c;font-size:11px}
+#classicStrip{background:#2c210f!important;border-top:1px solid #b0792c!important;border-bottom:1px solid #76501d!important;padding:5px 10px!important;text-align:center;color:#bfa66e!important}
+#classicStrip a{color:#9fda27!important;text-decoration:none!important;font-weight:bold;margin:0 12px}
+#classicStrip a:hover{text-decoration:underline!important;color:#d9f66b!important}
+
+.layout{display:block;min-height:650px}
+nav{height:27px;background:#171006;border-top:1px solid #a8752a;border-bottom:2px solid #6e4818;padding:2px 5px;white-space:nowrap;overflow:hidden;text-align:center}
+.navbtn{background:transparent;border:0;color:#c6ad68;font:bold 10px Arial;padding:3px 8px;cursor:pointer}
+.navbtn:after{content:"  ·";color:#76531f;margin-left:7px}
+.navbtn:last-child:after{content:""}
+.navbtn:hover,.navbtn.active{color:#b7ee36;text-decoration:underline}
+nav hr{display:none}
+
+main{background:#000;padding:0 7px 12px}
+.sectionLink{color:#b8e63b;text-decoration:none;font-weight:bold}
+.sectionLink:hover{text-decoration:underline}
+.referenceMap{display:flex;align-items:stretch;background:#080805;border:1px solid #634317;min-height:105px}
+.referenceMap .map{width:145px;background:linear-gradient(135deg,#203a1c,#6b7d42 48%,#162914);border-right:2px solid #8a5b1c}
+.referenceMap .feed{flex:1}
+.quickActions{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#5c3c14;border:1px solid #79501b}
+.quickActions a{display:block;background:#151006;padding:8px 5px;text-align:center;color:#b8e63b;text-decoration:none;font-weight:bold}
+.quickActions a:hover{background:#2a1b08}
+.profile{display:grid;grid-template-columns:135px 1fr;gap:10px;background:#120d06;border:1px solid #694619;padding:9px}
+.avatar{height:112px;border:4px solid #7c6332;background:linear-gradient(135deg,#080808,#343026);display:flex;align-items:center;justify-content:center;color:#a9d73c;font-size:24px;font-weight:bold}
+.vehicleStrip{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:#5e3d14;border:1px solid #79511b}
+.vehicleStrip .v{background:#080808;min-height:76px;padding:8px;text-align:center;color:#c9bb95}
+.vehicleStrip .v b{display:block;color:#d9bd59;margin-bottom:7px}
+
+.status{display:flex;gap:0;background:#2a1b08;border:1px solid #80551c;border-left:0;border-right:0;padding:0;margin:0 0 7px}
+.stat{flex:1;min-width:0;background:#3a250d;border-right:1px solid #8b6020;padding:5px 7px;color:#ddd;text-align:center}
+.stat:last-child{border-right:0}
+.stat b{display:block;color:#d4b458;font-size:9px;font-weight:normal}
+.stat strong{color:#fff}
+.panel{background:#000;border:0;margin:0 0 8px}
+.panel h2{margin:0;background:linear-gradient(#744b16,#4b2d0d);border-top:1px solid #ad7625;border-bottom:1px solid #9c6b23;color:#eee0bc;font-size:11px;padding:4px 7px;font-weight:bold}
+.inside{padding:8px 12px;color:#ddd}
+.notice{background:#211608;border:1px solid #634117;color:#c9b681;padding:6px 8px;margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid2 .panel{border:1px solid #6b4819}
+table{width:100%;border-collapse:collapse;color:#ddd}
+th{background:#6b4515;color:#ead9ae;text-align:left;border:1px solid #8d5d20;padding:4px}
+td{border-bottom:1px solid #2c2114;padding:5px 4px;background:#050505;vertical-align:top}
+tr:nth-child(even) td{background:#0b0906}
+td b{color:#fff}
+button,.btn{font-family:Arial;font-size:10px;background:linear-gradient(#e3c35a,#9a6718);border:1px solid #d5a33b;color:#160f05;padding:3px 7px;cursor:pointer;font-weight:bold}
+button:hover,.btn:hover{background:#d6ec55}
+button:disabled{opacity:.4;cursor:not-allowed}
+input,select{font-family:Arial;font-size:11px;border:1px solid #76501c;background:#111;color:#eee;padding:3px}
+.bar{height:8px;background:#1a130b;border:1px solid #75501e;margin-top:4px}
+.bar i{display:block;height:100%;background:#82a928}
+.card{background:#090909;border:1px solid #4f3514;padding:7px}
+.flex{display:flex;gap:8px;flex-wrap:wrap}
+.log{max-height:120px;overflow:auto;font-size:10px;color:#c4b17e}
+.log div{padding:2px 5px;border-bottom:1px solid #342510;background:#080604}
+.log div:nth-child(even){background:#100c06}
+.good{color:#8fd72d;font-weight:bold}.bad{color:#df6942;font-weight:bold}
+.small,.muted{font-size:10px;color:#9f916f}
+.footer{text-align:center;background:#100b05;color:#806e4c;padding:7px;border-top:1px solid #6b4718;font-size:9px}
+footer{background:#100b05;color:#806e4c;padding:7px;text-align:center;border-top:1px solid #6b4718;font-size:9px}
+a{color:#a8db32}
+@media(max-width:1000px){#game{margin:0 auto;border-left:0;border-right:0}.top h1{font-size:31px}.navbtn{padding:3px 5px}.navbtn:after{margin-left:3px}}
+
+/* --- CLASSIC FINAL POLISH --- */
+.marketMini{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin:4px 0}
+.marketMini .m{background:#0b0906;border:1px solid #493113;padding:4px;text-align:center}
+.marketMini .m b{display:block;color:#d4bd69;font-size:10px}
+.marketMini .m span{font-size:9px}
+.goodIcon{width:38px;height:30px;display:inline-block;vertical-align:middle;margin-right:4px;position:relative;background:#111;border:1px solid #4e391c;overflow:hidden}
+.goodIcon.pills:before{content:"";position:absolute;width:22px;height:7px;left:7px;top:9px;border-radius:8px;background:#9ebd38;box-shadow:8px 7px 0 #c9a94d,-8px 8px 0 #a55e3b}
+.goodIcon.powder:before{content:"";position:absolute;width:22px;height:12px;left:8px;top:10px;background:#d4c9a5;border-radius:50%}
+.goodIcon.crate:before{content:"";position:absolute;width:25px;height:21px;left:6px;top:5px;background:#745225;border:1px solid #b18a48}
+.goodIcon.gold:before{content:"$";position:absolute;left:8px;top:-2px;color:#d8bd54;font:bold 28px Georgia}
+.goodIcon.box:before{content:"◆";position:absolute;left:9px;top:1px;color:#8d6a36;font-size:23px}
+.goodIcon.star:before{content:"★";position:absolute;left:8px;top:0;color:#b6a14f;font-size:24px}
+.goodIcon.coin:before{content:"●";position:absolute;left:9px;top:0;color:#c4a94b;font-size:24px}
+.goodIcon.gem:before{content:"◇";position:absolute;left:9px;top:0;color:#a7b7a1;font-size:25px}
+.vehiclePic{height:54px;width:95px;position:relative;margin:auto;background:linear-gradient(#17150f,#080705);border:1px solid #493113;overflow:hidden}
+.vehiclePic:before{content:"";position:absolute;left:13px;right:12px;bottom:12px;height:18px;background:#252016;border:1px solid #8a7038;border-radius:7px 12px 3px 3px}
+.vehiclePic:after{content:"";position:absolute;width:13px;height:13px;border-radius:50%;background:#090909;border:2px solid #79602f;left:19px;bottom:4px;box-shadow:42px 0 0 #090909,42px 0 0 2px #79602f}
+.vehiclePic.sport:before{left:10px;right:10px;height:14px;border-radius:10px 16px 2px 2px}
+.vehiclePic.lux:before{left:7px;right:7px;height:20px;border-radius:12px 18px 3px 3px}
+.vehiclePic.hyper:before{left:4px;right:4px;height:12px;border-radius:14px 22px 2px 2px}
+.vehiclePhoto{height:70px;width:112px;margin:auto;border:1px solid #493113;background:#080705 center/cover no-repeat;box-shadow:inset 0 0 0 2px #0b0804;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.vehiclePhoto:after{content:'CITY HUSTLE';position:absolute;right:2px;bottom:2px;background:#050403dd;color:#d3bd70;border:1px solid #63461b;font-size:7px;padding:1px 3px}
+.vehicleArt{width:108px;height:66px;display:block}
+.goodPhoto{height:48px;width:68px;display:inline-block;vertical-align:middle;margin-right:5px;border:1px solid #493113;background:#080705 center/cover no-repeat;box-shadow:inset 0 0 0 2px #0b0804}
+.goodPhoto.g0{background-image:url('https://upload.wikimedia.org/wikipedia/commons/7/7e/Meph_pack.jpg')}
+.goodPhoto.g1{background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Phenazopyridine.jpg/630px-Phenazopyridine.jpg')}
+.goodPhoto.g2{background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Bayer_Heroin_bottle.jpg/500px-Bayer_Heroin_bottle.jpg')}
+.goodPhoto.g3{background-image:url('https://upload.wikimedia.org/wikipedia/commons/7/7e/Meph_pack.jpg')}
+.goodPhoto.g4,.goodPhoto.g5,.goodPhoto.g6,.goodPhoto.g7,.goodPhoto.g8,.goodPhoto.g9,.goodPhoto.g10,.goodPhoto.g11,.goodPhoto.g12,.goodPhoto.g13,.goodPhoto.g14,.goodPhoto.g15{background-image:linear-gradient(135deg,#24180a,#0b0906)}
+.marketPhotoCell{width:82px;text-align:center!important;padding:3px!important}
+.photoCaption{display:block;font-size:7px;color:#786a4e;margin-top:2px}
+
+.retroMap{height:210px;background:#080705;border:1px solid #6a4817;position:relative;overflow:hidden;margin-bottom:5px;box-shadow:inset 0 0 0 2px #120d07}
+.retroMap:before{content:"EUROPA · CLASSIC REISEN";position:absolute;left:6px;top:5px;z-index:3;color:#a88b4d;font-size:8px;letter-spacing:.6px}
+.retroMap:after{content:"N  ↑";position:absolute;right:7px;top:5px;color:#77613a;font-size:8px;z-index:3}
+.retroMap svg{position:absolute;inset:0;width:100%;height:100%;opacity:.95}
+.mapLand{fill:#17130c;stroke:#58411f;stroke-width:1}
+.mapGrid{stroke:#2b2114;stroke-width:.6;stroke-dasharray:2 4}
+.mapRoute{stroke:#6c5427;stroke-width:1;stroke-dasharray:3 3;opacity:.8}
+.cityDot{position:absolute;transform:translate(-50%,-50%);background:#c5a958;border:1px solid #ead27a;padding:2px 4px;font-size:8px;line-height:10px;color:#050403;cursor:pointer;z-index:4;box-shadow:0 0 0 1px #181109}
+.cityDot:hover{background:#f0d77c}
+.cityDot.locked{background:#342918;color:#7e6d4a;border-color:#594523;box-shadow:none}
+.cityDot.current{background:#7fa42e;color:#071004;border-color:#b9d96a}
+.mapLegend{position:absolute;left:7px;bottom:5px;z-index:4;background:#080705d9;border:1px solid #4e391b;padding:3px 5px;color:#8f7b50;font-size:7px}
+.detailRow{display:grid;grid-template-columns:90px 1fr 110px;gap:5px;align-items:center;border-bottom:1px solid #302315;padding:4px 2px}
+.detailRow:last-child{border-bottom:0}
+.badgeCheap{color:#9fbe3b}.badgeMid{color:#d0b55a}.badgeHigh{color:#b66b4e}
+.smallBtn{padding:2px 5px;font-size:9px}
+@media(max-width:760px){#game{width:100%;max-width:none}.grid2{grid-template-columns:1fr}.marketMini{grid-template-columns:repeat(2,1fr)}.detailRow{grid-template-columns:70px 1fr 88px}table{font-size:9px}}
+
+
+/* --- 2000s DASHBOARD / PAGE SHELL --- */
+.dashboardHero{border:1px solid #5b3b14;background:#0a0805;margin-bottom:5px}
+.dashboardTitle{padding:6px 8px;background:linear-gradient(#4a3218,#24170a);color:#d9bf68;font-weight:bold;font-size:13px;border-bottom:1px solid #6d4a1d}
+.statusLine{padding:4px 7px;background:#080706;border-bottom:1px solid #2d2114;font-size:9px;color:#b4a77e}
+.quickGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;padding:4px}
+.quickLink{display:block;text-decoration:none;color:#b8c94b;background:#100d08;border:1px solid #463216;padding:5px;text-align:center;font-size:10px}
+.quickLink:hover{background:#21170c;color:#e1cc68}
+.kpiLine{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin:4px 0}
+.kpi{border:1px solid #493317;background:#0c0a07;padding:4px;text-align:center}
+.kpi b{display:block;color:#8f7b4b;font-size:8px}.kpi span{display:block;color:#d0bd72;font-size:10px;margin-top:2px}
+.homeColumns{display:grid;grid-template-columns:1.25fr .75fr;gap:5px}
+.newsList{list-style:none;margin:0;padding:0}
+.newsList li{padding:4px 5px;border-bottom:1px solid #2b2014;font-size:9px}
+.newsList li:last-child{border-bottom:0}
+.miniTitle{color:#bca75c;font-weight:bold;margin-bottom:3px}
+@media(max-width:760px){.kpiLine{grid-template-columns:repeat(2,1fr)}.quickGrid{grid-template-columns:repeat(2,1fr)}.homeColumns{grid-template-columns:1fr}}
+
+
+/* --- UNIFIED CLASSIC NAV + PROFILE --- */
+.classicNav{display:flex;flex-wrap:wrap;background:#120d07;border-top:1px solid #5b3b14;border-bottom:1px solid #5b3b14}
+.classicNav a{color:#aebf4a;text-decoration:none;font-size:9px;padding:5px 8px;border-right:1px solid #352515}
+.classicNav a:hover{background:#2a1b0c;color:#dfc866}
+.profileGrid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.statTable td:first-child{color:#9d8a59}.statTable td:last-child{text-align:right;color:#d0bd72}
+.logBox{max-height:160px;overflow:auto;background:#070605;border:1px solid #3d2a15}
+.logBox div{padding:3px 5px;border-bottom:1px solid #21170e;font-size:9px}
+@media(max-width:760px){.profileGrid{grid-template-columns:1fr}.classicNav a{padding:5px 6px}}
+
+</style><style>
+.artGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:#5b3b14;border:1px solid #76501c;padding:3px}
+.artCard{background:#080705;border:1px solid #493113;padding:4px;text-align:center;color:#b8a977;font-size:9px}
+.art{height:72px;position:relative;overflow:hidden;background:linear-gradient(#17170f,#080806)}
+.art:before{content:"";position:absolute;left:14%;right:14%;bottom:9px;height:22px;background:#282516;border:1px solid #7d6b38;box-shadow:12px -13px 0 -3px #3f351d,-18px -8px 0 -4px #4a3b20}
+.art.pills:after{content:"";position:absolute;width:32px;height:9px;left:calc(50% - 16px);top:24px;border-radius:9px;background:#a8c83a;box-shadow:12px 11px 0 #d0b44c,-15px 14px 0 #9e5c35}
+.art.powder:after{content:"";position:absolute;width:40px;height:18px;left:calc(50% - 20px);top:30px;background:#d7cda8;border-radius:50%;box-shadow:0 0 0 2px #5f512d}
+.art.crate:after{content:"";position:absolute;width:43px;height:32px;left:calc(50% - 21px);top:23px;background:repeating-linear-gradient(0deg,#705020 0 5px,#916b32 6px 9px);border:1px solid #b18a48}
+.art.gold:after{content:"$";position:absolute;left:calc(50% - 14px);top:12px;color:#d6bc51;font:bold 46px Georgia;text-shadow:2px 2px #31240e}
+.carArt{height:76px;position:relative;background:linear-gradient(#15140f,#070706)}
+.carArt:before{content:"";position:absolute;left:12%;right:12%;bottom:18px;height:22px;background:#30302a;border:2px solid #a28645;border-radius:14px 19px 6px 6px;box-shadow:0 8px 0 -2px #050505}
+.carArt:after{content:"";position:absolute;width:15px;height:15px;border-radius:50%;background:#080808;border:2px solid #a28645;left:22%;bottom:7px;box-shadow:70px 0 0 #080808,70px 0 0 2px #a28645}
+</style><style>
+.bizTable{width:100%;border-collapse:collapse;background:#050505}
+.bizTable th{background:#6d4515;color:#ead9a9;border:1px solid #8d5d20;padding:4px}
+.bizTable td{border:1px solid #382610;padding:6px;background:#080604}
+.bizTable tr:nth-child(even) td{background:#0d0905}
+.bizName{color:#d1b257;font-weight:bold}
+.bizIncome{color:#8fce35;font-weight:bold}
+.staffCount{color:#c8b88c}
+.managementBar{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:#624016;border:1px solid #7b5019;margin-bottom:7px}
+.managementBar div{background:#100b05;text-align:center;padding:6px;color:#b9dc43}
+.managementBar span{display:block;color:#9b8c6d;font-size:9px;margin-top:2px}
+</style><style>
+.originalActionBar{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:#614016;border:1px solid #7b511a;margin:6px 0}
+.originalActionBar div{background:#100b05;padding:6px;text-align:center;color:#b8df42;font-weight:bold}
+.originalActionBar span{display:block;color:#9b8a69;font-weight:normal;font-size:9px;margin-top:2px}
+</style><style>
+.businessList,.staffList,.licenseList{border:1px solid #5e3d15;background:#030303}
+.businessRow,.staffRow,.licenseRow{display:grid;grid-template-columns:120px 1fr 125px;gap:9px;padding:7px;border-bottom:1px solid #4a3012;background:#050505}
+.businessRow:nth-child(even),.staffRow:nth-child(even),.licenseRow:nth-child(even){background:#0b0804}
+.businessIcon,.staffIcon,.licenseIcon{height:70px;border:1px solid #493113;background:linear-gradient(135deg,#15110a,#49351d,#080604);display:flex;align-items:center;justify-content:center;color:#9fbe48;font-weight:bold}
+.businessInfo h3,.staffInfo h3,.licenseInfo h3{margin:0 0 4px;color:#d3b356;font-size:11px}
+.businessInfo,.staffInfo,.licenseInfo{line-height:1.45;color:#c8bfa8}
+.action{text-align:right;padding-top:3px}
+.action strong{display:block;color:#eee;margin-bottom:7px}
+.profileTable{width:100%;border-collapse:collapse}
+.profileTable td{padding:5px;border-bottom:1px solid #3b2911;background:#080604}
+.profileTable td:first-child{width:35%;color:#a9976d}
+.profileTable td:last-child{color:#eee}
+.sectionNote{background:#171006;border:1px solid #5b3b14;padding:6px;color:#bcae8d;margin-bottom:7px}
+</style><style>
+.vehicleList{background:#000;border:1px solid #5d3d15}
+.vehicleRow{display:grid;grid-template-columns:135px 1fr 115px;gap:10px;padding:7px 8px;border-bottom:1px solid #5a3b15;background:#050505}
+.vehicleRow:nth-child(even){background:#0b0804}
+.vehicleIcon{height:72px;border:1px solid #483113;background:linear-gradient(135deg,#111,#3b3020,#080808);display:flex;align-items:center;justify-content:center;color:#b18d42;font-weight:bold}
+.vehicleInfo h3{margin:0 0 4px;color:#d0a746;font-size:11px}
+.vehicleInfo div{line-height:1.45;color:#c8bea6}
+.vehiclePrice{text-align:right;color:#eee;padding-top:4px}
+.vehiclePrice strong{display:block;color:#fff;font-size:12px;margin-bottom:7px}
+.travelBox{background:#080705;border:1px solid #604016;padding:8px}
+.cityGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:#5b3b14;border:1px solid #76501c}
+.cityGrid button{border:0;border-radius:0;background:#120d06;color:#b8dc47;padding:7px 4px;font-size:10px}
+.cityGrid button:hover{background:#2b1b08;color:#e1ee72}
+.travelInfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.travelInfo .box{background:#100b05;border:1px solid #543714;padding:7px}
+.travelInfo b{color:#d2b75d}
+</style><style>
+.marketTitle{background:linear-gradient(#714714,#4b2d0d);border-top:1px solid #b57a28;border-bottom:1px solid #9b6821;color:#eee0b8;padding:4px 6px;font-weight:bold}
+.marketItem{display:grid;grid-template-columns:125px 1fr 1fr;gap:8px;padding:7px 4px;border-bottom:1px solid #39240d;background:#030303}
+.marketItem:nth-child(even){background:#090704}
+.productPic{height:82px;border:1px solid #382812;background:radial-gradient(circle at 50% 45%,#665735,#111 58%,#000);display:flex;align-items:center;justify-content:center;color:#8fae48;font-size:11px}
+.marketCols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.marketCols div{line-height:1.55}
+.buyLink{color:#c55c37;text-decoration:underline;font-weight:bold;cursor:pointer}
+.buyLink:hover{color:#f08a52}
+.cityButton{display:inline-block;background:linear-gradient(#e3c75c,#986517);border:2px solid #6f521d;border-radius:6px;box-shadow:0 0 0 2px #111;padding:5px 15px;color:#111;font-weight:bold;text-decoration:none}
+.cityButton:hover{filter:brightness(1.15)}
+.pageTitle{text-align:center;color:#eee3c2;font-size:14px;font-weight:bold;padding:8px;border-bottom:1px solid #684417}
+</style>
+</head>
+<body>
+<div id="game">
+<header class="top">
+  <h1>City Hustle</h1>
+  <small>klassisches Gangster-Browsergame · Privatversion</small>
+</header>
+<div id="classicStrip">
+  <span>Spieler online: <b>1</b> &nbsp; Aktive Spieler: <b>1</b></span>
+  &nbsp;&nbsp; | &nbsp;&nbsp;
+  <a href="#" onclick="nav('home');return false;">Spielübersicht</a>
+  <a href="#" onclick="nav('market');return false;">Markt</a>
+  <a href="#" onclick="nav('travel');return false;">Reisen</a>
+  <a href="#" onclick="nav('garage');return false;">Fahrzeuge</a>
+  <a href="#" onclick="nav('business');return false;">Geschäfte</a>
+</div><div id="unifiedNav" class="classicNav">
+<a href="#" onclick="nav('home');return false">START</a>
+<a href="#" onclick="nav('market');return false">MARKT</a>
+<a href="#" onclick="nav('travel');return false">REISEN</a>
+<a href="#" onclick="nav('garage');return false">GARAGE</a>
+<a href="#" onclick="nav('license');return false">FÜHRERSCHEIN</a>
+<a href="#" onclick="nav('business');return false">GESCHÄFTE</a>
+<a href="#" onclick="nav('staff');return false">PERSONAL</a>
+<a href="#" onclick="nav('bank');return false">BANK</a>
+<a href="#" onclick="nav('stats');return false">PROFIL</a>
+</div>
+<div class="ticker" style="display:flex;background:#2b1b08;border-bottom:1px solid #85581c;height:62px;overflow:hidden">
+  <div style="width:150px;background:linear-gradient(135deg,#243c20,#657543);border-right:2px solid #87591d;display:flex;align-items:center;justify-content:center;color:#b9d95b;font-weight:bold">Karte</div>
+  <div style="flex:1;padding:4px 6px">
+    <div style="background:#6a4313;border:1px solid #8f6020;padding:3px;color:#ead8a9">11:09:26&nbsp;&nbsp; Spieler erreicht die nächste Stadt.</div>
+    <div style="background:#3d270d;border:1px solid #80531a;padding:3px;color:#c8b98e">11:09:21&nbsp;&nbsp; Marktpreise wurden aktualisiert.</div>
+    <div style="background:#6a4313;border:1px solid #8f6020;padding:3px;color:#ead8a9">11:09:18&nbsp;&nbsp; Fahrzeug ist unterwegs.</div>
+  </div>
+</div>
+<div class="layout">
+<nav>
+  
+  <button class="navbtn active" data-page="home">Spielübersicht</button>
+  <button class="navbtn" data-page="market">Markt</button>
+  <button class="navbtn" data-page="travel">Reisen</button>
+  <button class="navbtn" data-page="garage">Fahrzeuge</button>
+  <button class="navbtn" data-page="license">Führerschein</button>
+  <button class="navbtn" data-page="business">Geschäfte</button>
+  <button class="navbtn" data-page="staff">Schläger</button>
+  <button class="navbtn" data-page="bank">Bank</button>
+  <button class="navbtn" data-page="stats">Statistik</button>
+  <hr>
+  <button class="navbtn" onclick="saveGame()">Speichern</button>
+  <button class="navbtn" onclick="loadGame()">Laden</button>
+  <button class="navbtn" onclick="newGame()">Neues Spiel</button>
+</nav>
+<main><div class="sectionNote">Willkommen zurück. Hier findest du deine Geschäfte, deinen Führerschein, Mitarbeiter und den aktuellen Stand deiner Gangsterkarriere.</div>
+  <div class="status" id="status"></div>
+  
+<style>
+.marketExtras{margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.retroBox{border:1px solid #6b4a1e;background:#080808}
+.retroBox h3{margin:0;padding:5px 7px;background:#3a2410;color:#e5c26b;font-size:11px;border-bottom:1px solid #6b4a1e}
+.retroBox .boxBody{padding:6px;font-size:10px;line-height:1.45}
+.offerRow{display:flex;justify-content:space-between;border-bottom:1px dotted #49361c;padding:3px 0}
+.offerRow:last-child{border-bottom:0}
+.goodCheap{color:#7bd66b}.goodHot{color:#e2bd55}.goodExp{color:#d96b5f}
+@media(max-width:700px){.marketExtras{grid-template-columns:1fr}}
+</style>
+
+
+<style>
+.cityTravelGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}
+.cityTravelCard{border:1px solid #68491f;background:#090909;padding:7px;min-height:105px}
+.cityTravelCard .cityName{font-weight:bold;color:#e5c26b;font-size:11px;border-bottom:1px dotted #513718;padding-bottom:4px;margin-bottom:5px}
+.cityTravelCard .cityMeta{font-size:9px;color:#aaa;line-height:1.45}
+.cityTravelCard .cityAction{margin-top:6px}
+.cityLocked{opacity:.58}
+.cityUnlocked{box-shadow:inset 0 0 0 1px #3e642f}
+.travelRoute{margin-top:8px;border:1px solid #68491f;background:#050505;padding:7px;font-size:10px}
+.routeArrow{color:#e5c26b;font-weight:bold}
+.cityMiniPic{height:34px;margin-bottom:5px;border:1px solid #49351b;background:linear-gradient(135deg,#18120b,#3a2610);position:relative;overflow:hidden}
+.cityMiniPic:after{content:"";position:absolute;left:8px;right:8px;bottom:6px;height:6px;background:#6c4d24;box-shadow:15px -9px 0 #3f3a2a,32px -4px 0 #7a5a2a,55px -13px 0 #292929,78px -6px 0 #5a4020}
+@media(max-width:850px){.cityTravelGrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.cityTravelGrid{grid-template-columns:1fr}}
+</style>
+
+
+<style>
+.garageGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}
+.garageCard{border:1px solid #68491f;background:#090909;padding:7px}
+.garageCard.current{box-shadow:inset 0 0 0 1px #6b9b48}
+.garageCarPic{height:72px;border:1px solid #49351b;background:linear-gradient(145deg,#151515,#2c1c0d);position:relative;overflow:hidden;margin-bottom:6px}
+.garageCarPic:before{content:"";position:absolute;left:14%;bottom:20%;width:62%;height:25%;background:#5b3b1c;border-radius:22px 28px 8px 8px;box-shadow:inset 0 5px 0 #9a6c2d}
+.garageCarPic:after{content:"●      ●";white-space:pre;position:absolute;left:21%;bottom:7%;font-size:15px;letter-spacing:12px;color:#080808}
+.garageName{color:#e5c26b;font-weight:bold;font-size:11px}
+.garageMeta{font-size:9px;color:#aaa;line-height:1.45;margin:4px 0}
+.garagePrice{font-weight:bold;color:#d8c08a}
+.garageLocked{opacity:.55}
+@media(max-width:850px){.garageGrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.garageGrid{grid-template-columns:1fr}}
+</style>
+
+
+<style>
+.businessGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}
+.businessCard{border:1px solid #68491f;background:#090909;padding:7px}
+.businessPic{height:48px;border:1px solid #49351b;background:linear-gradient(135deg,#17110a,#3a2610);position:relative;margin-bottom:6px}
+.businessPic:before{content:"";position:absolute;left:12%;right:12%;bottom:10px;height:18px;background:#5b3b1c;border-top:2px solid #a17835}
+.businessPic:after{content:"$";position:absolute;right:12px;top:6px;color:#e5c26b;font-weight:bold;font-size:16px}
+.businessName{font-weight:bold;color:#e5c26b;font-size:11px}
+.businessMeta{font-size:9px;color:#aaa;line-height:1.5;margin:4px 0}
+.businessOwned{box-shadow:inset 0 0 0 1px #6b9b48}
+.staffLine{display:flex;justify-content:space-between;border-top:1px dotted #49351b;padding-top:4px;margin-top:4px}
+.adminBox{margin-top:8px;border:1px solid #68491f;background:#050505;padding:7px;font-size:10px}
+@media(max-width:850px){.businessGrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.businessGrid{grid-template-columns:1fr}}
+</style>
+
+
+<style>
+.bankGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+.bankPanel{border:1px solid #68491f;background:#090909;padding:8px}
+.bankPanel h4{margin:0 0 6px;color:#e5c26b;font-size:11px}
+.bankPanel .line{display:flex;justify-content:space-between;border-bottom:1px dotted #49351b;padding:4px 0;font-size:10px}
+.eventRow{border-bottom:1px dotted #49351b;padding:4px 0;font-size:10px}
+.eventRow:last-child{border-bottom:0}
+.rankBox{margin-top:8px;border:1px solid #68491f;background:#050505;padding:7px;font-size:10px}
+.progressBar{height:9px;background:#17120b;border:1px solid #49351b;margin-top:4px}
+.progressFill{height:100%;background:#76521e}
+@media(max-width:600px){.bankGrid{grid-template-columns:1fr}}
+</style>
+
+
+<style>
+.achievementGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:7px}
+.achievement{border:1px solid #68491f;background:#090909;padding:6px;font-size:10px}
+.achievement.done{box-shadow:inset 0 0 0 1px #6b9b48}
+.achievement .title{color:#e5c26b;font-weight:bold}
+.activityLog{max-height:190px;overflow:auto;border:1px solid #68491f;background:#050505;padding:6px;font-size:10px}
+.activityLog .logItem{border-bottom:1px dotted #49351b;padding:4px 0}
+.activityLog .logItem:last-child{border-bottom:0}
+@media(max-width:600px){.achievementGrid{grid-template-columns:1fr}}
+</style>
+
+<div id="app"></div>
+  <div class="panel">
+    <h2>Spielprotokoll</h2>
+    <div class="inside"><div class="log" id="log"></div></div>
+  </div>
+<div class="classicBottom" style="text-align:center;color:#9f8a5b;padding:4px;border-top:1px solid #5b3b14">Fahrzeuge &nbsp;·&nbsp; Reisen &nbsp;·&nbsp; Markt &nbsp;·&nbsp; Stadtübersicht</div><div class="classicFooterLine" style="text-align:center;color:#796544;border-top:1px solid #39250f;padding:5px;font-size:9px">Spielanleitung &nbsp;·&nbsp; Forum &nbsp;·&nbsp; Chat &nbsp;·&nbsp; Spieler online &nbsp;·&nbsp; Einstellungen<div id="classicActionHint" style="background:#0c0905;border:1px solid #684417;padding:5px 7px;margin:0 0 6px;color:#cdbb8c">Kaufe günstig ein, reise in eine andere Stadt und verkaufe dort mit Gewinn.</div><div id="managementBar" class="managementBar">
+      <div>GESCHÄFTE<span>bauen Einkommen auf</span></div>
+      <div>PERSONAL<span>Schläger verwalten</span></div>
+      <div>AUSBAU<span>mehr Einnahmen pro Tag</span></div>
+    </div><div id="gameGallery" class="panel">
+  <h2>WAREN &amp; FAHRZEUGE</h2>
+  <div class="inside">
+    <div class="artGrid">
+      <div class="artCard"><div class="art pills"></div>Tabletten</div>
+      <div class="artCard"><div class="art powder"></div>Pulver</div>
+      <div class="artCard"><div class="art crate"></div>Schmuggelkiste</div>
+      <div class="artCard"><div class="art gold"></div>Goldware</div>
+    </div>
+    <div style="height:5px"></div>
+    <div class="artGrid">
+      <div class="artCard"><div class="carArt"></div>Kleinwagen</div>
+      <div class="artCard"><div class="carArt"></div>Limousine</div>
+      <div class="artCard"><div class="carArt"></div>Sportwagen</div>
+      <div class="artCard"><div class="carArt"></div>Luxuswagen</div>
+    </div>
+  </div>
+</div><div id="classicProgress" style="background:#0d0904;border:1px solid #684417;padding:6px 8px;margin:5px 0;color:#bcae8d">
+      <b style="color:#d4b55d">STÄDTE &amp; FÜHRERSCHEIN</b>
+      <span style="float:right;color:#a8dc35">Neue Städte werden mit höheren Führerscheinstufen freigeschaltet.</span>
+    </div><div id="priceHintBar" style="display:grid;grid-template-columns:1fr 1fr 1fr;background:#100b05;border:1px solid #654116;margin:5px 0">
+      <div style="padding:5px;text-align:center;color:#9fcf35">🟢 GÜNSTIG</div>
+      <div style="padding:5px;text-align:center;color:#d0b35b">🟡 NORMAL</div>
+      <div style="padding:5px;text-align:center;color:#d05b38">🔴 TEUER</div>
+    </div></main>
+</div>
+<footer>City Hustle · Classic Browsergame</footer>
+</div>
+
+<script>
+const GOODS=[
+{name:"Päckchen",base:90},{name:"Tabletten",base:160},{name:"Kistenware",base:260},
+{name:"Schmuggelware",base:420},{name:"Elektronik",base:650},{name:"Luxusware",base:900},
+{name:"Spezialware",base:1250},{name:"Seltene Ware",base:1800},{name:"Diamantgut",base:2600},
+{name:"Sammlerware",base:3600},{name:"Goldware",base:5000},{name:"Meisterware",base:7200},
+{name:"Schwarzmarkt-Kunst",base:9800},{name:"Vintage-Uhren",base:13500},
+{name:"Tresorware",base:18500},{name:"Elite-Sammlerobjekt",base:25000}
+];
+
+const PLACES=[
+ ["München",55,{Päckchen:.92,Tabletten:1.05,Kistenware:1.12,Schmuggelware:1.08,Elektronik:1.02,Luxusware:1.20,Spezialware:1.12,"Seltene Ware":1.15,Diamantgut:1.18,Sammlerware:1.20,Goldware:1.25,Meisterware:1.28}],
+ ["Augsburg",90,{Päckchen:.68,Tabletten:.90,Kistenware:.80,Schmuggelware:.66,Elektronik:.88,Luxusware:1.08,Spezialware:1.14,"Seltene Ware":1.18,Diamantgut:1.18,Sammlerware:1.10,Goldware:1.06,Meisterware:1.12}],
+ ["Stuttgart",45,{Päckchen:1.22,Tabletten:.70,Kistenware:1.05,Schmuggelware:1.12,Elektronik:1.02,Luxusware:1.06,Spezialware:1.02,"Seltene Ware":1.10,Diamantgut:1.12,Sammlerware:1.15,Goldware:1.18,Meisterware:1.20}],
+ ["Nürnberg",70,{Päckchen:1.02,Tabletten:1.00,Kistenware:.62,Schmuggelware:.88,Elektronik:.64,Luxusware:1.12,Spezialware:.78,"Seltene Ware":1.02,Diamantgut:1.10,Sammlerware:1.12,Goldware:1.18,Meisterware:1.20}],
+ ["Frankfurt",40,{Päckchen:.78,Tabletten:1.04,Kistenware:1.10,Schmuggelware:1.08,Elektronik:1.06,Luxusware:1.25,Spezialware:1.16,"Seltene Ware":1.22,Diamantgut:1.30,Sammlerware:1.28,Goldware:1.32,Meisterware:1.35}],
+ ["Köln",80,{Päckchen:1.08,Tabletten:1.35,Kistenware:1.02,Schmuggelware:1.28,Elektronik:1.08,Luxusware:1.18,Spezialware:1.32,"Seltene Ware":1.28,Diamantgut:1.25,Sammlerware:1.30,Goldware:1.34,Meisterware:1.40}],
+ ["Düsseldorf",65,{Päckchen:1.06,Tabletten:1.12,Kistenware:1.12,Schmuggelware:1.05,Elektronik:1.22,Luxusware:1.32,Spezialware:1.18,"Seltene Ware":1.30,Diamantgut:1.36,Sammlerware:1.38,Goldware:1.42,Meisterware:1.45}],
+ ["Hamburg",105,{Päckchen:.84,Tabletten:.90,Kistenware:.56,Schmuggelware:.70,Elektronik:.58,Luxusware:1.04,Spezialware:.70,"Seltene Ware":.88,Diamantgut:.94,Sammlerware:.96,Goldware:1.02,Meisterware:1.05}],
+ ["Berlin",140,{Päckchen:1.16,Tabletten:1.20,Kistenware:1.10,Schmuggelware:1.18,Elektronik:1.25,Luxusware:1.42,Spezialware:1.32,"Seltene Ware":1.54,Diamantgut:1.60,Sammlerware:1.65,Goldware:1.70,Meisterware:1.75}],
+ ["Leipzig",125,{Päckchen:.86,Tabletten:.84,Kistenware:.92,Schmuggelware:.62,Elektronik:.88,Luxusware:1.08,Spezialware:.58,"Seltene Ware":.68,Diamantgut:.72,Sammlerware:.78,Goldware:.82,Meisterware:.88}],
+ ["Dresden",155,{Päckchen:1.08,Tabletten:1.06,Kistenware:1.18,Schmuggelware:1.16,Elektronik:1.20,Luxusware:1.28,Spezialware:1.26,"Seltene Ware":1.48,Diamantgut:1.52,Sammlerware:1.55,Goldware:1.62,Meisterware:1.68}],
+ ["Wien",115,{Päckchen:.80,Tabletten:.94,Kistenware:.86,Schmuggelware:.72,Elektronik:.82,Luxusware:1.12,Spezialware:1.04,"Seltene Ware":1.10,Diamantgut:1.15,Sammlerware:1.18,Goldware:1.22,Meisterware:1.28}],
+ ["Zürich",85,{Päckchen:1.30,Tabletten:.66,Kistenware:1.02,Schmuggelware:1.10,Elektronik:1.00,Luxusware:1.10,Spezialware:1.08,"Seltene Ware":1.16,Diamantgut:1.20,Sammlerware:1.22,Goldware:1.28,Meisterware:1.32}],
+ ["Paris",135,{Päckchen:.74,Tabletten:.82,Kistenware:.76,Schmuggelware:.58,Elektronik:.78,Luxusware:1.08,Spezialware:.60,"Seltene Ware":.70,Diamantgut:.76,Sammlerware:.82,Goldware:.86,Meisterware:.92}],
+ ["London",180,{Päckchen:1.24,Tabletten:1.28,Kistenware:1.16,Schmuggelware:1.26,Elektronik:1.30,Luxusware:1.48,Spezialware:1.40,"Seltene Ware":1.62,Diamantgut:1.72,Sammlerware:1.78,Goldware:1.85,Meisterware:1.90}]
+];
+
+const CARS=[
+{name:"Altes Fahrrad",cost:0,lic:0,multi:1.00,cap:12},
+{name:"Kleinwagen",cost:3500,lic:1,multi:.93,cap:20},
+{name:"Limousine",cost:14000,lic:2,multi:.85,cap:30},
+{name:"Sportwagen",cost:38000,lic:3,multi:.77,cap:42},
+{name:"Luxuslimousine",cost:85000,lic:4,multi:.69,cap:55},
+{name:"Muscle Car",cost:165000,lic:5,multi:.62,cap:70},
+{name:"Supersportler",cost:300000,lic:6,multi:.55,cap:88},
+{name:"Luxus-Sportwagen",cost:520000,lic:7,multi:.49,cap:108},
+{name:"Hypercar",cost:850000,lic:8,multi:.43,cap:132},
+{name:"Executive GT",cost:1350000,lic:9,multi:.38,cap:160},
+{name:"Grand Tourer",cost:2100000,lic:10,multi:.34,cap:195},
+{name:"Legend Class",cost:3400000,lic:12,multi:.30,cap:240}
+];
+
+const CLASSIC_MEDIA={
+ goods:[
+  'https://upload.wikimedia.org/wikipedia/commons/7/7e/Meph_pack.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Phenazopyridine.jpg/630px-Phenazopyridine.jpg',
+  'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Bayer_Heroin_bottle.jpg/500px-Bayer_Heroin_bottle.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/7/7e/Meph_pack.jpg'
+ ],
+ cars:[
+  'https://upload.wikimedia.org/wikipedia/commons/3/3f/Oldtimer_car_front.jpg',
+  'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Classic_Car_%2835207386720%29.jpg/960px-Classic_Car_%2835207386720%29.jpg',
+  'https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Black_Continental.JPG/1280px-Black_Continental.JPG',
+  'https://commons.wikimedia.org/wiki/Special:Redirect/file/Old_red_Renault_photo-1.JPG?width=960'
+ ]
+};
+
+const BUSINESSES=[
+{name:"Kleines Bordell",cost:18000,income:650,slots:2},
+{name:"Nachtclub",cost:55000,income:1900,slots:3},
+{name:"Großes Etablissement",cost:140000,income:5000,slots:4},
+{name:"Spielhalle",cost:280000,income:11000,slots:5},
+{name:"Hotel",cost:650000,income:26000,slots:7},
+{name:"Imperium",cost:1500000,income:65000,slots:10},
+{name:"Palais",cost:3400000,income:145000,slots:14},
+{name:"Konzernzentrale",cost:7800000,income:330000,slots:20}
+];
+
+const LIC_COST=[0,3500,12000,30000,70000,150000,300000,550000,950000,1500000,2400000,3800000,6000000];
+
+let game;
+
+function fresh(){
+ return {
+  version:2,
+  money:3500,day:1,place:"München",lic:0,car:0,
+  ownedCars:[0],stock:{},businesses:{},staff:{},bank:0,
+  totalProfit:0,totalBought:0,totalSold:0,trips:0,events:0,log:[]
+ };
+}
+function initStock(){for(const g of GOODS) game.stock[g.name]=0}
+function place(){
+ const p=PLACES.find(p=>p[0]===game.place);
+ if(!p){game.place=PLACES[0][0];return PLACES[0]}
+ return p;
+}
+function car(){
+ let i=Number(game.car);
+ if(!Number.isInteger(i)||i<0||i>=CARS.length)i=0;
+ game.car=i;
+ if(!Array.isArray(game.ownedCars))game.ownedCars=[0];
+ if(!game.ownedCars.includes(0))game.ownedCars.push(0);
+ return CARS[i];
+}
+function capacity(){return car().cap}
+function money(n){return Math.round(n).toLocaleString("de-DE")+" €"}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function log(s){
+ game.log.unshift("Tag "+game.day+" · "+s);
+ game.log=game.log.slice(0,80);
+ document.getElementById("log").innerHTML=game.log.map(x=>"<div>"+esc(x)+"</div>").join("");
+}
+
+
+const classicCityUnlocks = {
+  "München":0,
+  "Augsburg":0,
+  "Stuttgart":1,
+  "Nürnberg":1,
+  "Frankfurt":2,
+  "Köln":2,
+  "Düsseldorf":3,
+  "Hamburg":4,
+  "Berlin":5,
+  "Leipzig":6,
+  "Dresden":7,
+  "Wien":8,
+  "Zürich":9,
+  "Paris":10,
+  "London":12
+};
+function classicCityUnlocked(city){
+  const need=classicCityUnlocks[city] ?? 99;
+  return (game.lic||0)>=need;
+}
+
+function classicCityLockText(city){
+  const need=classicCityUnlocks[city];
+  if(need===undefined || need===0) return "";
+  return classicCityUnlocked(city) ? "" : " 🔒 Stufe "+need;
+}
+
+
+const classicCityProfiles={
+"München":[1.22,.95,.82,1.08,.98,1.10,.90,1.12,1.05,1.16,.88,.94,1.18,1.02,1.10,1.00],
+"Augsburg":[.78,1.24,.92,.84,1.16,.90,1.10,.82,1.06,.96,1.18,1.08,.94,1.12,.86,.98],
+"Stuttgart":[1.08,.86,1.12,.94,1.04,1.14,.92,1.10,.96,1.18,.88,1.06,1.00,1.20,.90,1.08],
+"Nürnberg":[.88,.92,.72,.76,.82,1.12,1.18,1.02,1.16,.94,1.06,1.20,.84,1.10,.78,1.00],
+"Frankfurt":[1.12,1.02,1.08,1.16,.94,.88,1.10,1.08,.92,1.04,1.14,.96,1.18,.90,1.12,1.06],
+"Köln":[.96,1.16,1.08,1.02,.98,1.20,.84,1.12,1.04,.86,1.18,1.08,1.10,.94,1.16,1.02],
+"Düsseldorf":[1.04,1.10,1.16,1.08,1.12,.96,1.06,.88,1.10,1.20,.94,1.02,.82,1.14,.98,1.08],
+"Hamburg":[.74,.86,.70,.68,.78,1.06,1.20,1.00,1.14,.92,1.10,1.22,.76,1.08,.72,.98],
+"Berlin":[1.18,1.14,1.10,1.16,1.08,1.04,1.18,1.16,1.10,1.14,1.08,1.12,1.16,1.18,1.12,1.14],
+"Leipzig":[.92,.84,.80,.72,.90,1.02,1.16,1.18,1.20,1.08,1.14,1.22,.88,1.16,.82,1.10],
+"Dresden":[1.10,.98,1.06,.92,1.18,1.08,.96,1.20,1.16,1.12,1.06,.90,1.14,.84,1.18,1.04],
+"Wien":[.86,1.18,.94,.88,1.14,1.02,1.08,1.14,1.12,1.06,1.16,1.10,1.02,1.20,.90,1.12],
+"Zürich":[1.14,.88,1.20,1.02,1.06,1.12,.94,1.08,1.02,1.16,.90,1.08,1.06,1.18,.92,1.10],
+"Paris":[.70,.78,.66,.62,.82,1.10,1.22,1.16,1.18,1.04,1.20,1.24,.72,1.12,.68,1.06],
+"London":[1.20,1.18,1.16,1.20,1.14,1.12,1.20,1.18,1.16,1.20,1.14,1.18,1.20,1.22,1.16,1.20]
+};
+
+function marketTrend(g){
+ const ci=Math.max(0,PLACES.findIndex(p=>p[0]===game.place));
+ const gi=GOODS.findIndex(x=>x.name===g);
+ const seed=Math.abs((game.day*97+(ci+3)*53+(gi+5)*31)%100);
+ if(seed<7)return 1.30;
+ if(seed<18)return 1.14;
+ if(seed>93)return .72;
+ if(seed>82)return .86;
+ return 1;
+}
+function price(g){
+ const d=GOODS.find(x=>x.name===g), p=place();
+ if(!d)return 0;
+ const mod=(p[2][g]||1), trend=marketTrend(g);
+ const seed=((game.day*37+g.length*19+game.place.length*11)%25-12)/100;
+ const floor=Math.max(1,Math.round(d.base*.45));
+ const ceiling=Math.max(floor+1,Math.round(d.base*2.6));
+ return Math.max(floor,Math.min(ceiling,Math.round(d.base*mod*trend*(1+seed))));
+}
+function staffCount(){
+ return Object.values(game.staff).reduce((a,b)=>a+b,0)
+}
+function businessIncome(){
+ let gross=0,wages=0;
+ for(let i=0;i<BUSINESSES.length;i++){
+  const n=game.businesses[i]||0, s=game.staff[i]||0;
+  gross+=n*BUSINESSES[i].income*(1+s*.18);
+  wages+=s*120;
+ }
+ return {gross,wages,net:gross-wages};
+}
+function collectIncome(){
+ const x=businessIncome();
+ if(x.net){game.money+=x.net;log("Geschäfte bringen "+money(x.gross)+" ein. Löhne: "+money(x.wages)+". Netto: "+money(x.net)+".")}
+}
+function advanceDay(n=1){for(let i=0;i<n;i++){game.day++;collectIncome()}}
+
+function classicActionHint(text, good=true){
+  const el=document.getElementById('classicActionHint');
+  if(!el)return;
+  el.textContent=text;
+  el.className=good?'good':'bad';
+}
+
+
+function classicDailyEvents(){
+  const day=(typeof game!=="undefined"?Number(game.day||1):1);
+  const events=[
+    ["MARKT","Die Händler melden heute wechselnde Preise."],
+    ["HAFEN","Im Hafen sind neue Waren eingetroffen."],
+    ["GARAGE","Ein Autohändler hat mehrere Fahrzeuge im Angebot."],
+    ["STADT","Auf dem lokalen Markt herrscht reger Betrieb."],
+    ["BANK","Die Bank meldet einen ruhigen Handelstag."],
+    ["GERÜCHT","Ein unbekannter Händler spricht von seltenen Angeboten."]
+  ];
+  const a=events[(day-1)%events.length];
+  return `<div class="retroBox" style="margin-top:8px"><h3>★ TAGESEREIGNISSE · TAG ${day}</h3>
+    <div class="boxBody"><div class="eventRow"><b style="color:#e5c26b">${a[0]}</b> — ${a[1]}</div>
+    <div class="eventRow">Deine Entscheidungen bestimmen, wie schnell du dein Vermögen und Imperium ausbaust.</div></div>
+  </div>`;
+}
+
+
+function classicSpecialEvents(){
+  const day=(typeof game!=="undefined"?Number(game.day||1):1);
+  const events=[
+    ["MARKT-BOOM","Die Nachfrage nach einer Warenkategorie steigt heute.","positive"],
+    ["SONDERANGEBOT","Ein Händler bietet eine kleine Warenmenge günstiger an.","positive"],
+    ["KONTROLLE","Auf deiner Reise findet eine zufällige Spielkontrolle statt. Es kann eine kleine Geldstrafe geben.","neutral"],
+    ["REIFENPanne","Dein Fahrzeug macht Probleme. Eine kleine Reparatur wird fällig.","neutral"],
+    ["VIP-KUNDE","Ein besonderer Kunde sorgt heute für einen einmaligen Bonus.","positive"],
+    ["HÄNDLERSTREIT","Ein Handel platzt kurzfristig. Kein dauerhafter Effekt.","neutral"],
+    ["GEHEIMTIPP","Du bekommst einen Hinweis auf einen ungewöhnlichen Marktpreis.","positive"],
+    ["RUHIGER TAG","Heute passiert nichts Außergewöhnliches.","neutral"]
+  ];
+  const e=events[(day*7+3)%events.length];
+  return `<div class="retroBox" style="margin-top:8px"><h3>★ ZUFÄLLIGES EREIGNIS</h3>
+    <div class="boxBody"><div class="eventRow"><b style="color:#e5c26b">${e[0]}</b> — ${e[1]}</div>
+    <div style="margin-top:5px;color:#777">Die Ereignisse sind zufällig und dienen ausschließlich dem Spiel-Fortschritt.</div></div>
+  </div>`;
+}
+
+
+function classicOrders(){
+  const day=(typeof game!=="undefined"?Number(game.day||1):1);
+  const orders=[
+    ["Kleiner Auftrag","Liefere 3 Waren an den nächsten Markt.","+ 1.500 €"],
+    ["Händlerauftrag","Verkaufe eine gemischte Warenladung.","+ 3.500 €"],
+    ["Großauftrag","Erreiche einen Tagesumsatz von 20.000 €.","+ 8.000 €"],
+    ["VIP-Auftrag","Schließe einen Handel in einer freigeschalteten Stadt ab.","+ 15.000 €"]
+  ];
+  const o=orders[(day-1)%orders.length];
+  return `<div class="retroBox" style="margin-top:8px"><h3>★ AUFTRAG DES TAGES</h3>
+    <div class="boxBody">
+      <div class="eventRow"><b style="color:#e5c26b">${o[0]}</b></div>
+      <div class="eventRow">${o[1]}</div>
+      <div class="eventRow"><span style="color:#7bd66b">Belohnung: ${o[2]}</span></div>
+      <button class="smallBtn" onclick="claimOrder()" ${orderDone()?'disabled':''}>${orderDone()?'ERLEDIGT':'AUFTRAG PRÜFEN'}</button>
+    </div>
+  </div>`;
+}
+
+
+function classicSpecialCars(){
+  const cars=[
+    ["Street Legend",750000,120,6],
+    ["Night Runner",1450000,175,8],
+    ["Executive Black",2800000,215,10]
+  ];
+  return `<div class="retroBox" style="margin-top:8px"><h3>★ BESONDERE FAHRZEUGE</h3>
+    <div class="boxBody"><div class="garageGrid">
+      ${cars.map(c=>`<div class="garageCard">
+        <div class="garageCarPic"></div><div class="garageName">${c[0]}</div>
+        <div class="garageMeta">Sondermodell<br>Preis: <b>${c[1].toLocaleString('de-DE')} €</b><br>
+        Lagerraum: ${c[2]}<br>Führerschein: ${c[3]}</div>
+        ${game.ownedCars.includes(CARS.findIndex(x=>x.name===c[0])) ? `<button class="smallBtn" onclick="setCar(CARS.findIndex(x=>x.name==='${c[0]}'))">BENUTZEN</button>` : `<button class="smallBtn" onclick="buySpecialCar('${c[0]}')" ${game.money<c[1]||game.lic<c[3]?'disabled':''}>KAUFEN</button>`}
+      </div>`).join("")}
+    </div></div>
+  </div>`;
+}
+
+
+function classicAchievements(){
+  const s=(typeof game!=="undefined"?game:{});
+  const money=Number(s.money||0)+Number(s.bank||0);
+  const day=Number(s.day||1);
+  const businesses=s.businesses&&typeof s.businesses==="object"?Object.values(s.businesses).reduce((a,b)=>a+Number(b||0),0):0;
+  const trips=Number(s.trips||0);
+  const sales=Number(s.totalSold||0);
+  const ach=[
+    ["Erster Handel", sales>=1, "Verkaufe deine erste Ware."],
+    ["Weltenbummler", trips>=5, "Schließe 5 Reisen ab."],
+    ["Geschäftsmann", businesses>=1, "Besitze dein erstes Geschäft."],
+    ["Händler", money>=25000, "Erreiche 25.000 € Gesamtvermögen."],
+    ["Großunternehmer", money>=500000, "Erreiche 500.000 € Gesamtvermögen."],
+    ["Langzeitspieler", day>=30, "Erreiche Spieltag 30."]
+  ];
+  return `<div class="retroBox" style="margin-top:8px"><h3>★ ERFOLGE & SAMMLUNG</h3>
+    <div class="boxBody"><div class="achievementGrid">
+      ${ach.map(a=>`<div class="achievement ${a[1]?'done':''}">
+        <div class="title">${a[1]?'✓':'○'} ${a[0]}</div>
+        <div style="color:#999;margin-top:2px">${a[2]}</div>
+      </div>`).join("")}
+    </div></div>
+  </div>`;
+}
+
+
+function classicActivityLog(){
+  const s=(typeof game!=="undefined"?game:{});
+  const log=Array.isArray(s.log)?s.log:[];
+  const fallback=["Spiel gestartet.","Willkommen im Classic-Modus.","Bereit für den nächsten Handel."];
+  const items=log.length?log.slice(-12).reverse():fallback;
+  return `<div class="retroBox" style="margin-top:8px"><h3>★ AKTIVITÄTSPROTOKOLL</h3>
+    <div class="boxBody"><div class="activityLog">
+      ${items.map(x=>`<div class="logItem">${x}</div>`).join("")}
+    </div></div>
+  </div>`;
+}
+
+function renderStatus(){
+ const inc=businessIncome();
+ document.getElementById("status").innerHTML=`
+ <div class="stat"><b>Geld</b>${money(game.money)}</div>
+ <div class="stat"><b>Ort</b>${esc(game.place)}</div>
+ <div class="stat"><b>Tag</b>${game.day}</div>
+ <div class="stat"><b>Auto</b>${esc(car().name)}</div>
+ <div class="stat"><b>Lager</b>${Object.values(game.stock).reduce((a,b)=>a+b,0)} / ${capacity()}</div>
+ <div class="stat"><b>Geschäfte</b>${money(inc.net)}/Tag</div>`;
+}
+function render(){
+ try{
+  renderStatus();
+  const active=document.querySelector(".navbtn.active");
+  const page=active?active.dataset.page:"home";
+  (pages[page]||pages.home)();
+  document.getElementById("log").innerHTML=game.log.map(x=>"<div>"+esc(x)+"</div>").join("");
+ }catch(e){
+  console.error("City Hustle render error",e);
+  const app=document.getElementById("app");
+  if(app) app.innerHTML='<section class="panel"><h2>SPIELFEHLER</h2><div class="inside"><b>Der Spielstand wurde zurückgesetzt.</b><br><button onclick="newGame()">Neues Spiel starten</button></div></section>';
+ }
+}
+function nav(page){
+ document.querySelectorAll(".navbtn[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ render();
+}
+document.querySelectorAll(".navbtn[data-page]").forEach(b=>b.onclick=()=>nav(b.dataset.page));
+
+function vehicleArt(i){
+ const shapes=[
+  [58,28,0,1], [62,26,0,1], [66,25,1,1], [70,24,1,1],
+  [74,23,1,1], [78,22,2,1], [82,21,2,1], [86,20,2,1],
+  [90,19,3,1], [94,18,3,1], [98,17,3,1], [102,16,4,1]
+ ];
+ const [w,h,roof,wing]=shapes[i]||shapes[0];
+ const x=(108-w)/2, y=37-h;
+ const roofs=[
+  `M ${x+10} ${y+2} L ${x+18} ${y-roof*2+1} L ${x+w-20} ${y-roof*2+1} L ${x+w-10} ${y+2}`,
+  `M ${x+12} ${y+2} L ${x+23} ${y-roof*3+2} L ${x+w-23} ${y-roof*3+2} L ${x+w-12} ${y+2}`,
+  `M ${x+15} ${y+2} L ${x+28} ${y-roof*4+2} L ${x+w-28} ${y-roof*4+2} L ${x+w-15} ${y+2}`,
+  `M ${x+18} ${y+2} L ${x+32} ${y-roof*5+2} L ${x+w-32} ${y-roof*5+2} L ${x+w-18} ${y+2}`,
+  `M ${x+20} ${y+2} L ${x+35} ${y-roof*6+2} L ${x+w-35} ${y-roof*6+2} L ${x+w-20} ${y+2}`
+ ];
+ const bodyY=y+4, bodyH=h-4;
+ const hue=['#777','#a86','#6a7880','#8b5b3c','#aaa','#555','#b08a4d','#7c7c7c','#a33','#777','#c0a36a','#9b9b9b'][i];
+ return `<svg class="vehicleArt" viewBox="0 0 108 66" xmlns="http://www.w3.org/2000/svg" aria-label="Fahrzeugbild">
+ <rect width="108" height="66" fill="#0b0907"/>
+ <path d="${roofs[Math.min(roof,4)]}" fill="#25201a" stroke="#8d6b31" stroke-width="1"/>
+ <path d="M ${x} ${bodyY+4} Q ${x+4} ${bodyY} ${x+10} ${bodyY} L ${x+w-10} ${bodyY} Q ${x+w-4} ${bodyY} ${x+w} ${bodyY+4} L ${x+w-2} ${bodyY+bodyH-3} Q ${x+w-6} ${bodyY+bodyH} ${x+w-12} ${bodyY+bodyH} L ${x+12} ${bodyY+bodyH} Q ${x+6} ${bodyY+bodyH} ${x+2} ${bodyY+bodyH-3} Z" fill="${hue}" stroke="#c5a45a" stroke-width="1"/>
+ <path d="M ${x+12} ${bodyY+5} L ${x+w-12} ${bodyY+5}" stroke="#e4c97a" opacity=".55"/>
+ <circle cx="${x+15}" cy="${bodyY+bodyH+1}" r="6" fill="#111" stroke="#b18b43"/><circle cx="${x+w-15}" cy="${bodyY+bodyH+1}" r="6" fill="#111" stroke="#b18b43"/>
+ <circle cx="${x+15}" cy="${bodyY+bodyH+1}" r="2" fill="#777"/><circle cx="${x+w-15}" cy="${bodyY+bodyH+1}" r="2" fill="#777"/>
+ <rect x="${x+5}" y="${bodyY+7}" width="7" height="3" fill="#f2df91"/><rect x="${x+w-12}" y="${bodyY+7}" width="7" height="3" fill="#f2df91"/>
+ <text x="54" y="60" text-anchor="middle" fill="#8d6b31" font-size="5" font-family="Arial">${['BIKE','CITY','SEDAN','SPORT','LUX','MUSCLE','SUPER','GT','HYPER','EXEC','TOURER','LEGEND'][i]}</text>
+ </svg>`;
+}
+
+const pages={
+  home(){
+  const used=Object.values(game.stock||{}).reduce((a,b)=>a+b,0);
+  const inv=Object.entries(game.stock||{}).filter(([k,v])=>v>0).slice(0,6)
+    .map(([k,v])=>`<li><b>${esc(k)}</b> <span style="float:right">${v}</span></li>`).join("") || `<li>Noch keine Waren im Lager.</li>`;
+  const biz=Object.values(game.businesses||{}).reduce((a,b)=>a+b,0);
+  const inc=typeof businessIncome==="function"?businessIncome():{net:0};
+  app.innerHTML=`<section class="dashboardHero">
+    <div class="dashboardTitle">CITY HUSTLE · HAUPTQUARTIER</div>
+    <div class="statusLine">Tag ${game.day} · ${esc(game.place)} · ${esc(car().name)} · Führerschein ${game.lic}</div>
+    <div class="statusLine"><b>Fortschritt:</b> ${esc(car().name)} · Nächstes Ziel: ${CARS[Math.min(game.car+1,CARS.length-1)] ? esc(CARS[Math.min(game.car+1,CARS.length-1)].name) : "—"} · Bargeld ${money(game.money)}</div><div class="kpiLine">
+      <div class="kpi"><b>KASSE</b><span>${money(game.money)}</span></div>
+      <div class="kpi"><b>BANK</b><span>${money(game.bank)}</span></div>
+      <div class="kpi"><b>LAGER</b><span>${used}/${capacity()}</span></div>
+      <div class="kpi"><b>GESCHÄFTE</b><span>${biz}</span></div>
+      <div class="kpi"><b>NETTO/TAG</b><span>${money(inc.net||0)}</span></div>
+    </div>
+    <div class="quickGrid">
+      <a class="quickLink" href="#" onclick="nav('market');return false">▣ SCHWARZMARKT</a>
+      <a class="quickLink" href="#" onclick="nav('travel');return false">✈ REISEN</a>
+      <a class="quickLink" href="#" onclick="nav('garage');return false">▰ GARAGE</a>
+      <a class="quickLink" href="#" onclick="nav('business');return false">♦ GESCHÄFTE</a>
+      <a class="quickLink" href="#" onclick="nav('stats');return false">★ SPIELABLAUF</a>
+    </div>
+    <div style="margin-top:8px;text-align:center"><button class="cityButton" onclick="testMoney()">+ 500.000 € TESTGELD</button></div>
+  </section>
+  ${classicDailyEvents()}
+  ${classicSpecialEvents()}
+  <section class="panel"><h2>KURZANLEITUNG · CLASSIC</h2><div class="inside">
+      <div class="notice">1. <b>Markt:</b> günstig einkaufen · 2. <b>Reisen:</b> andere Stadt wählen · 3. <b>Markt:</b> Ware verkaufen · 4. <b>Garage:</b> Fahrzeug verbessern · 5. <b>Geschäfte:</b> Einkommen aufbauen.</div>
+      <div class="small muted">Jede Reise beginnt einen neuen Spieltag. Speichere regelmäßig über „Spiel speichern“.</div>
+    </div></section>
+  <div class="homeColumns">
+    <section class="panel"><h2>Aktuelles</h2><div class="inside"><ul class="newsList">
+      <li>Die Preise ändern sich täglich.</li>
+      <li>Neue Städte werden über den Führerschein freigeschaltet.</li>
+      <li>Ein besseres Fahrzeug erhöht Stauraum und Reiseeffizienz.</li>
+      <li>Geschäfte zahlen beim nächsten Reisetag automatisch aus.</li>
+    </ul></div></section>
+    <section class="panel"><h2>Dein Lager</h2><div class="inside"><div class="miniTitle">WARENBESTAND</div><ul class="newsList">${inv}</ul></div></section>
+  </div>`;
+ },
+ market(){
+  const rows=GOODS.map((g,i)=>{
+   const p=price(g.name), q=game.stock[g.name]||0, max=Math.min(q,Math.floor(game.money/p));
+   const cheap=p < g.base*.82, high=p > g.base*1.18;
+   const icon=i%4===0?"pills":i%4===1?"powder":i%4===2?"crate":"gold";
+   const state=cheap?"GÜNSTIG":high?"TEUER":"NORMAL";
+   const cls=cheap?"badgeCheap":high?"badgeHigh":"badgeMid";
+   const photo=i<4?`<div class="goodPhoto g${i}" title="Original-/freie Referenzaufnahme"></div>`:`<span class="goodIcon ${icon}"></span>`;
+   return `<tr><td class="marketPhotoCell">${photo}<span class="photoCaption">${i<4?"Foto":"Spielgrafik"}</span></td><td><b>${esc(g.name)}</b><br>${money(p)}<br><span class="${cls}">${state}</span></td><td>${q} / ${capacity()}</td><td>
+    <button class="smallBtn" onclick="buy('${esc(g.name)}',1)">+1</button>
+    <button class="smallBtn" onclick="buy('${esc(g.name)}',${Math.max(1,max)})" ${max<1?"disabled":""}>MAX</button>
+    <button class="smallBtn" onclick="sell('${esc(g.name)}',1)" ${q<1?"disabled":""}>-1</button>
+    <button class="smallBtn" onclick="sell('${esc(g.name)}',${q})" ${q<1?"disabled":""}>ALLE</button>
+   </td></tr>`;
+  }).join("");
+  const sorted=GOODS.map(g=>({g,p:price(g.name)})).sort((a,b)=>a.p-b.p);
+  const used=Object.values(game.stock).reduce((a,b)=>a+b,0);
+  app.innerHTML=`<section class="panel"><h2>Schwarzmarkt · ${esc(game.place)}</h2><div class="inside">
+   <div class="marketMini">
+    <div class="m"><b>KASSE</b><span>${money(game.money)}</span></div>
+    <div class="m"><b>LAGER</b><span>${used} / ${capacity()}</span></div>
+    <div class="m"><b>GÜNSTIG</b><span>${esc(sorted[0].g.name)}</span></div>
+    <div class="m"><b>TEUER</b><span>${esc(sorted[sorted.length-1].g.name)}</span></div>
+   </div>
+   <div class="notice"><b>Bildstil:</b> Für die ersten Waren sind freie Referenzfotos eingebunden; die übrigen Waren bleiben als eigene Retro-Spielgrafiken. Die Fotos sind nicht die Original-Assets des alten Spiels.<br><br><b>Tagesmarkt:</b> Jede Stadt hat eigene Preis-Schwerpunkte. Kaufe günstig, reise und verkaufe teurer. Danach beginnt ein neuer Tag.<br><span style="color:#8fae39">● günstig</span> &nbsp; <span style="color:#c9ad50">● normal</span> &nbsp; <span style="color:#a8614a">● teuer</span></div><div class="notice"><b>Markt:</b> Preise schwanken täglich. ${esc(sorted[0].g.name)} ist aktuell günstig, ${esc(sorted[sorted.length-1].g.name)} aktuell teuer.</div>
+   <table><tr><th>Bild</th><th>Ware / Preis</th><th>Lager</th><th>Handel</th></tr>${rows}</table>
+  </div></section>`;
+ },
+ travel(){
+  const coords={
+   "München":[55,62],"Augsburg":[52,60],"Stuttgart":[46,58],"Nürnberg":[55,48],
+   "Frankfurt":[45,40],"Köln":[38,34],"Düsseldorf":[37,29],"Hamburg":[48,16],
+   "Berlin":[66,25],"Leipzig":[61,34],"Dresden":[68,38],"Wien":[70,63],
+   "Zürich":[43,69],"Paris":[20,55],"London":[9,39]
+  };
+  const routePairs=[["London","Paris"],["Paris","Köln"],["Köln","Düsseldorf"],["Düsseldorf","Hamburg"],["Köln","Frankfurt"],["Frankfurt","Stuttgart"],["Stuttgart","München"],["München","Augsburg"],["Frankfurt","Nürnberg"],["Nürnberg","Berlin"],["Berlin","Leipzig"],["Leipzig","Dresden"],["München","Wien"],["Stuttgart","Zürich"],["Berlin","Hamburg"]];
+  const lineSvg=routePairs.map(([a,b])=>{const A=coords[a],B=coords[b];return `<line class="mapRoute" x1="${A[0]}%" y1="${A[1]}%" x2="${B[0]}%" y2="${B[1]}%"/>`;}).join("");
+  const map=`<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="Europa Reisekarte">
+    <path class="mapLand" d="M8,36 L15,27 L23,24 L30,15 L42,13 L50,7 L61,10 L69,17 L81,18 L91,27 L95,38 L88,46 L91,56 L83,64 L75,72 L66,78 L55,83 L45,88 L35,82 L28,74 L19,70 L13,61 L7,52 Z"/>
+    <path class="mapLand" d="M66,78 L72,86 L79,94 L74,99 L67,91 Z"/>
+    <path class="mapLand" d="M22,14 L18,7 L22,3 L27,7 L26,15 Z"/>
+    ${Array.from({length:5},(_,i)=>`<line class="mapGrid" x1="0" y1="${20+i*15}" x2="100" y2="${20+i*15}"/>`).join("")}
+    ${lineSvg}
+  </svg>
+  ${PLACES.map(p=>{
+    const unlocked=classicCityUnlocked(p[0]), here=p[0]===game.place, [x,y]=coords[p[0]]||[50,50];
+    return `<button title="${esc(p[0])}" class="cityDot ${unlocked?"":"locked"} ${here?"current":""}" style="left:${x}%;top:${y}%" ${unlocked&&!here?`onclick="travelTo('${esc(p[0])}')"`:"disabled"}>${esc(p[0])}</button>`;
+  }).join("")}
+  <div class="mapLegend">● frei &nbsp; ● aktuell &nbsp; ● gesperrt · Linien = Reiserouten</div>`;
+  const rows=PLACES.map(p=>{
+   const unlocked=classicCityUnlocked(p[0]), cost=Math.max(10,Math.round(p[1]/car().multi));
+   return `<tr><td><b>${esc(p[0])}</b></td><td>${unlocked?cost+" €":classicCityLockText(p[0])}</td><td>${p[0]===game.place?"<span class='badgeCheap'>AKTUELL</span>":unlocked?`<button onclick="travelTo('${esc(p[0])}')">Reisen</button>`:"—"}</td></tr>`;
+  }).join("");
+  app.innerHTML=`<section class="panel"><h2>Reisen · Europa-Karte</h2><div class="inside">
+   <div class="retroMap">${map}</div>
+   <div class="notice">Fahrzeug: <b>${esc(car().name)}</b> · Reise-Faktor x${car().multi} · Jede Reise kostet einen Tag. Klicke eine freigeschaltete Stadt auf der Karte an.</div>
+   <table><tr><th>Stadt</th><th>Kosten / Freigabe</th><th></th></tr>${rows}</table>
+  </div></section>`;
+ },
+ garage(){
+  const rows=CARS.map((c,i)=>{
+   const owned=game.ownedCars.includes(i), locked=game.lic<c.lic;
+   let pic=i<2?"":i<4?"sport":i<7?"lux":"hyper";
+   let action=owned?(game.car===i?"<span class='badgeCheap'>AKTUELL</span>":`<button onclick="setCar(${i})">Benutzen</button>`):
+    `<button onclick="buyCar(${i})" ${locked||game.money<c.cost?"disabled":""}>Kaufen</button>`;
+   return `<tr><td><div class="vehiclePhoto v${i}">${vehicleArt(i)}</div><b>${esc(c.name)}</b><br><span class="small">${i<4?"eigenes Fahrzeugbild":"eigenes Fahrzeugbild"}</span></td><td>${money(c.cost)}</td><td>${c.lic}</td><td>${c.cap}</td><td>x${c.multi}</td><td>${locked?"Führerschein fehlt":action}</td></tr>`;
+  }).join("");
+  app.innerHTML=`<section class="panel"><h2>Garage · Fuhrpark</h2><div class="inside">
+   <div class="notice">Jedes Fahrzeug hat jetzt ein eigenes, originales Classic-Fahrzeugbild im 2000er-Browsergame-Stil – keine Original-Assets des alten Spiels.<br><br>Mehr Stauraum und kürzere Reisekosten. Freigeschaltet wird über den Führerschein.</div>
+   <table><tr><th>Fahrzeug</th><th>Preis</th><th>FS</th><th>Lager</th><th>Reise</th><th>Aktion</th></tr>${rows}</table>
+  </div></section>`;
+ },
+ license(){
+  const next=game.lic+1;
+  const cost=LIC_COST[next]||Math.round(LIC_COST[8]*(1.8**(next-8)));
+  app.innerHTML=`<section class="panel"><h2>Führerschein</h2><div class="inside">
+   <div class="card"><b>Aktuelle Stufe: ${game.lic}</b><br>Jede Stufe schaltet neue Fahrzeuge frei.</div>
+   ${game.lic<12?`<table><tr><th>Nächste Stufe</th><th>Kosten</th><th></th></tr><tr><td>Stufe ${next}</td><td>${money(cost)}</td><td><button onclick="upgradeLicense()" ${game.money<cost?"disabled":""}>Stufe erhöhen</button></td></tr></table>`:"<b>Maximale Stufe erreicht.</b>"}
+  </div></section>`;
+ },
+ business(){
+  const rows=BUSINESSES.map((b,i)=>{
+   const n=game.businesses[i]||0, staff=game.staff[i]||0, max=n*b.slots;
+   return `<tr><td><b>${esc(b.name)}</b></td><td>${money(b.cost)}</td><td>${money(b.income)}</td><td>${n}</td><td>${staff}/${max}</td>
+   <td>${n?`<button onclick="hire(${i})" ${staff>=max||game.money<800?"disabled":""}>+ Schläger</button>`:`<button onclick="buyBusiness(${i})" ${game.money<b.cost?"disabled":""}>Kaufen</button>`}</td></tr>`;
+  }).join("");
+  const inc=businessIncome();
+  app.innerHTML=`<section class="panel"><h2>Geschäfte · Einnahmen</h2><div class="inside">
+  <div class="marketMini"><div class="m"><b>BRUTTO / TAG</b><span>${money(inc.gross)}</span></div><div class="m"><b>LÖHNE / TAG</b><span>${money(inc.wages)}</span></div><div class="m"><b>NETTO / TAG</b><span>${money(inc.net)}</span></div><div class="m"><b>GESCHÄFTE</b><span>${Object.values(game.businesses).reduce((a,b)=>a+b,0)}</span></div></div>
+  <div class="notice"><b>Amortisation:</b> Kleine Geschäfte sind früh erreichbar, größere Unternehmen brauchen deutlich mehr Kapital.</div><div class="notice">Geschäfte bringen beim nächsten Reisetag automatisch Einnahmen. Schläger erhöhen die Einnahmen, kosten aber täglich Lohn.</div>
+  <table><tr><th>Geschäft</th><th>Kaufpreis</th><th>Basis/Tag</th><th>Besitz</th><th>Schläger</th><th>Aktion</th></tr>${rows}</table></div></section>`;
+ },
+ staff(){
+  const rows=BUSINESSES.map((b,i)=>{
+   const n=game.businesses[i]||0,s=game.staff[i]||0,max=n*b.slots;
+   return `<tr><td>${esc(b.name)}</td><td>${n}</td><td>${s}/${max}</td><td>800 €</td><td><button onclick="hire(${i})" ${!n||s>=max||game.money<800?"disabled":""}>Schläger anheuern</button></td></tr>`;
+  }).join("");
+  app.innerHTML=`<section class="panel"><h2>Schläger</h2><div class="inside">
+  <div class="notice">Ein Schläger kostet 800 € und 120 € Lohn pro Tag. Jeder Schläger steigert die Einnahmen des zugehörigen Geschäfts um 18 %.</div>
+  <table><tr><th>Geschäft</th><th>Besitz</th><th>Schläger</th><th>Kosten</th><th></th></tr>${rows}</table></div></section>`;
+ },
+ bank(){
+  app.innerHTML=`<section class="panel"><h2>Bank</h2><div class="inside">
+   <div class="card">Kontostand: <b>${money(game.bank)}</b></div>
+   <div class="flex"><button onclick="bankDeposit(500)">500 € einzahlen</button><button onclick="bankDeposit(5000)">5.000 € einzahlen</button><button onclick="bankWithdraw(500)">500 € abheben</button><button onclick="bankWithdraw(5000)">5.000 € abheben</button></div>
+   <p class="small muted">Die Bank dient nur als sichere Reserve. Es gibt keine Online-Funktionen.</p>
+  </div></section>`;
+ },
+ stats(){
+  const inc=businessIncome();
+  app.innerHTML=`<section class="panel"><h2>Statistik</h2><div class="inside"><table>
+   <tr><td>Tag</td><td>${game.day}</td></tr><tr><td>Geld</td><td>${money(game.money)}</td></tr>
+   <tr><td>Bank</td><td>${money(game.bank)}</td></tr><tr><td>Gewinn aus Handel</td><td>${money(game.totalProfit)}</td></tr>
+   <tr><td>Einkäufe</td><td>${game.totalBought}</td></tr><tr><td>Verkäufe</td><td>${game.totalSold}</td></tr>
+   <tr><td>Reisen</td><td>${game.trips}</td></tr><tr><td>Geschäftseinnahmen/Tag</td><td>${money(inc.net)}</td></tr>
+   <tr><td>Fahrzeug</td><td>${esc(car().name)}</td></tr><tr><td>Führerschein</td><td>Stufe ${game.lic}</td></tr>
+  </table></div></section>`;
+ }
+};
+pages.profile=()=>pages.stats();
+
+function testMoney(){
+ game.money+=500000;
+ log("TESTGELD: 500.000 € gutgeschrieben.");
+ saveGame();
+ render();
+}
+function buy(g,n){
+ const p=price(g), qty=Object.values(game.stock).reduce((a,b)=>a+b,0);
+ const allowed=Math.min(n,Math.floor(game.money/p),capacity()-qty);
+ if(allowed<=0){log("Kauf nicht möglich.");return}
+ game.money-=allowed*p;game.stock[g]+=allowed;game.totalBought+=allowed;
+ log(allowed+" × "+g+" für "+money(allowed*p)+" gekauft.");
+ render();
+}
+function sell(g,n){
+ const have=game.stock[g]||0, qty=Math.min(n,have);
+ if(qty<=0)return;
+ const p=price(g), revenue=qty*p;
+ game.stock[g]-=qty;game.money+=revenue;game.totalSold+=qty;
+ game.totalProfit+=revenue;
+ log(qty+" × "+g+" für "+money(revenue)+" verkauft.");
+ render();
+}
+function travelTo(name){
+ if(name===game.place)return;
+ const p=PLACES.find(x=>x[0]===name), cost=Math.max(10,Math.round(p[1]/car().multi));
+ if(game.money<cost){log("Nicht genug Geld für die Reise.");return}
+ game.money-=cost;game.place=name;game.trips++;advanceDay(1);
+ const chance=Math.random();
+ if(chance<.07){
+   const loss=Math.min(game.money,Math.max(100,Math.round(game.money*.08)));
+   game.money-=loss;game.events++;log("Unangenehme Kontrolle unterwegs – "+money(loss)+" gehen verloren.");
+ }else if(chance<.15){log("Die Reise verläuft problemlos.");}
+ else{log("Ankunft in "+name+".");}
+ render();
+}
+function buyCar(i){
+ const c=CARS[i];
+ if(game.lic<c.lic||game.money<c.cost||game.ownedCars.includes(i))return;
+ game.money-=c.cost;game.ownedCars.push(i);game.car=i;
+ log(c.name+" gekauft.");
+ render();
+}
+function buySpecialCar(name){
+ const i=CARS.findIndex(c=>c.name===name);
+ if(i<0)return;
+ buyCar(i);
+}
+function setCar(i){if(game.ownedCars.includes(i)){game.car=i;log(carsafe(i)+" ausgewählt.");render()}}
+function carsafe(i){return CARS[i].name}
+function upgradeLicense(){
+ const next=game.lic+1;
+ if(next>12)return;
+ const cost=LIC_COST[next]||Math.round(LIC_COST[8]*(1.8**(next-8)));
+ if(game.money<cost)return;
+ game.money-=cost;game.lic=next;log("Führerschein auf Stufe "+next+" erhöht.");render();
+}
+function buyBusiness(i){
+ const b=BUSINESSES[i];
+ if(game.money<b.cost)return;
+ game.money-=b.cost;game.businesses[i]=(game.businesses[i]||0)+1;log(b.name+" gekauft.");render();
+}
+function hire(i){
+ const b=BUSINESSES[i], n=game.businesses[i]||0,s=game.staff[i]||0,max=n*b.slots;
+ if(!n||s>=max||game.money<800)return;
+ game.money-=800;game.staff[i]=s+1;log("Schläger für "+b.name+" eingestellt.");render();
+}
+function bankDeposit(n){if(game.money<n)return;game.money-=n;game.bank+=n;log(money(n)+" auf die Bank eingezahlt.");render()}
+function bankWithdraw(n){if(game.bank<n)return;game.bank-=n;game.money+=n;log(money(n)+" von der Bank abgehoben.");render()}
+
+function saveGame(){
+ localStorage.setItem("cityHustleClassicPrivate",JSON.stringify(game));
+ log("Spielstand gespeichert.");
+}
+function loadGame(){
+ const s=localStorage.getItem("cityHustleClassicPrivate");
+ if(!s){log("Kein gespeicherter Spielstand gefunden.");return}
+ try{game=JSON.parse(s);initStock();for(const g of GOODS)if(typeof game.stock[g.name]!=="number")game.stock[g.name]=0;log("Spielstand geladen.");render()}
+ catch(e){log("Spielstand konnte nicht geladen werden.")}
+}
+function newGame(){
+ if(!confirm("Neues Spiel starten? Der aktuelle Spielstand bleibt nur erhalten, wenn du vorher gespeichert hast."))return;
+ game=fresh();initStock();game.log=[];log("Neues Spiel gestartet.");render();
+}
+
+/* === CITY HUSTLE CLASSIC · FULL 8-POINT EXPANSION === */
+const CH_CITY_INFO={
+ "München":"Zentrum des Handels. Ausgewogene Preise und kurze Wege.","Augsburg":"Importe, Container und wechselnde Sonderangebote.","Stuttgart":"Viel Durchreiseverkehr – schnelle Warenumschläge.","Nürnberg":"Industriewaren sind hier oft besonders günstig.","Frankfurt":"Ruhiger Markt mit Chancen bei Luxus- und Sammlerware.","Köln":"Nachts besonders lebhaft – Spezialwaren sind gefragt.","Düsseldorf":"Sammler und Händler zahlen hier gern für besondere Stücke.","Hamburg":"Große Warenmengen zu niedrigen Einkaufspreisen.","Berlin":"Großer Markt mit starken Preisausschlägen.","Leipzig":"Viele Händler, ungewöhnliche Preisunterschiede.","Dresden":"Seltene und hochwertige Waren sind gefragt.","Wien":"Handel mit Importware und Luxusgütern.","Zürich":"Hoher Durchsatz und wechselnde Tagespreise.","Paris":"Spezialmarkt mit starken Schwankungen.","London":"Der größte Markt – hohe Preise und hohe Chancen."
+};
+const CH_RANKS=[
+ [0,"Anfänger"],[25000,"Händler"],[100000,"Geschäftsmann"],[500000,"Großunternehmer"],[2000000,"Imperium"],[10000000,"City-Hustle-Legende"]
+];
+const CH_ACH=[
+ ["Erster Handel",()=>game.totalSold>=1,"Verkaufe die erste Ware."],
+ ["Weltenbummler",()=>game.trips>=5,"Schließe 5 Reisen ab."],
+ ["Geschäftsmann",()=>Object.values(game.businesses).reduce((a,b)=>a+b,0)>=1,"Besitze ein Geschäft."],
+ ["Händler",()=>wealth()>=25000,"Erreiche 25.000 € Gesamtvermögen."],
+ ["Großunternehmer",()=>wealth()>=500000,"Erreiche 500.000 € Gesamtvermögen."],
+ ["Fuhrpark",()=>game.ownedCars.length>=5,"Besitze 5 Fahrzeuge."],
+ ["Städtereise",()=>new Set(game.log.filter(x=>x.includes("Ankunft in ")).map(x=>x.split("Ankunft in ")[1]?.replace(".",""))).size>=8,"Besuche 8 verschiedene Städte."],
+ ["Auftrag erledigt",()=>game.completedOrders>=1,"Erfülle einen Tagesauftrag."],
+ ["Auftragssammler",()=>game.completedOrders>=5,"Erfülle 5 Tagesaufträge."],
+ ["Langzeitspieler",()=>game.day>=30,"Erreiche Spieltag 30."],
+ ["Millionär",()=>wealth()>=1000000,"Erreiche 1 Mio. € Gesamtvermögen."],
+ ["Imperium",()=>wealth()>=10000000,"Erreiche 10 Mio. € Gesamtvermögen."]
+];
+function wealth(){return Math.max(0,Number(game.money)||0)+Math.max(0,Number(game.bank)||0)+game.ownedCars.reduce((a,i)=>a+(CARS[i]?.cost||0),0);}
+function rank(){let r=CH_RANKS[0];for(const x of CH_RANKS)if(wealth()>=x[0])r=x;return r;}
+const CH_ORDERS=[
+ ["Kleiner Handel", "Verkaufe mindestens 3 Waren.", 1500, g=>game.totalSold>=3],
+ ["Reisender Händler", "Schließe 2 Reisen ab.", 3500, g=>game.trips>=2],
+ ["Großauftrag", "Erreiche 20.000 € Handelsgewinn.", 8000, g=>game.totalProfit>=20000],
+ ["Städtesammler", "Besuche mindestens 4 Städte.", 12000, g=>new Set(game.log.filter(x=>x.includes("Ankunft in ")).map(x=>x.split("Ankunft in ")[1]?.replace(".",""))).size>=4],
+ ["VIP-Auftrag", "Erreiche 500.000 € Gesamtvermögen.", 25000, g=>wealth()>=500000]
+];
+function orderForDay(){return CH_ORDERS[(game.day-1)%CH_ORDERS.length]}
+function orderDone(){return !!game.orderClaimedDay&&game.orderClaimedDay===game.day}
+function claimOrder(){const o=orderForDay();if(orderDone())return;if(!o[3](game)){log("Auftrag noch nicht erfüllt.");render();return}game.money+=o[2];game.completedOrders++;game.orderClaimedDay=game.day;log("Auftrag "+o[0]+" erfüllt: +"+money(o[2])+".");saveGame();render();}
+function cityFlavor(city){return CH_CITY_INFO[city]||"Ein Markt mit eigenen Preisen und Chancen."}
+function applyTravelEvent(){
+ const r=Math.random(), city=game.place;
+ if(r<.10){const bonus=Math.min(20000,Math.max(500,Math.round((game.money+1)*.03)));game.money+=bonus;game.events++;log("Zufallsereignis: Händlerbonus in "+city+" +"+money(bonus)+".");}
+ else if(r<.18){const fee=Math.min(game.money,Math.max(100,Math.round(game.money*.035)));game.money-=fee;game.events++;log("Zufallsereignis: Reparaturkosten "+money(fee)+".");}
+ else if(r<.25){const bonus=1000+game.lic*500;game.money+=bonus;game.events++;log("Zufallsereignis: Sonderauftrag in "+city+" +"+money(bonus)+".");}
+ else if(r<.32){game.events++;log("Stadt-Ereignis: Der Markt in "+city+" ist heute besonders lebhaft.");}
+ else if(r<.38){game.events++;log("Stadt-Ereignis: Ein Händler in "+city+" gibt dir einen Markt-Hinweis.");}
+}
+function ensureExpansionState(){
+ game.completedOrders=Math.max(0,Number(game.completedOrders)||0);
+ game.orderClaimedDay=Number.isFinite(Number(game.orderClaimedDay))?Number(game.orderClaimedDay):0;
+ game.bizLevels=(game.bizLevels&&typeof game.bizLevels==='object')?game.bizLevels:{};
+ game.specialOwned=Array.isArray(game.specialOwned)?game.specialOwned:[];
+}
+/* Drei freischaltbare Sonderfahrzeuge */
+if(!CARS.some(c=>c.name==='Street Legend')){
+ CARS.push({name:'Street Legend',cost:750000,lic:6,multi:.33,cap:120,special:true});
+ CARS.push({name:'Night Runner',cost:1450000,lic:8,multi:.26,cap:175,special:true});
+ CARS.push({name:'Executive Black',cost:2800000,lic:10,multi:.21,cap:215,special:true});
+}
+function enhancedBusinessIncome(){
+ let gross=0,wages=0;
+ for(let i=0;i<BUSINESSES.length;i++){
+  const n=game.businesses[i]||0,s=game.staff[i]||0,lvl=Number(game.bizLevels?.[i]||1);
+  gross+=n*BUSINESSES[i].income*(1+s*.18)*(1+(lvl-1)*.12);
+  wages+=s*120;
+ }
+ return {gross,wages,net:gross-wages};
+}
+businessIncome=enhancedBusinessIncome;
+function upgradeBusiness(i){
+ const n=game.businesses[i]||0;if(!n)return;
+ const lvl=Number(game.bizLevels?.[i]||1);if(lvl>=5)return;
+ const cost=Math.round(BUSINESSES[i].cost*(.55+.45*lvl));
+ if(game.money<cost){log("Nicht genug Geld für den Ausbau.");return;}
+ game.money-=cost;game.bizLevels[i]=lvl+1;log(BUSINESSES[i].name+" auf Stufe "+(lvl+1)+" ausgebaut.");saveGame();render();
+}
+const _oldTravelTo=travelTo;
+travelTo=function(name){_oldTravelTo(name);applyTravelEvent();saveGame();render();};
+function expandedHome(){
+ const o=orderForDay(), r=rank(), a=CH_ACH.filter(x=>x[1]()).length;
+ return `<div class="marketExtras">
+ <div class="retroBox"><h3>★ RANG &amp; IMPERIUM</h3><div class="boxBody"><b style="color:#e5c26b">${r[1]}</b><br>Gesamtvermögen: ${money(wealth())}<div class="progressBar"><div class="progressFill" style="width:${Math.min(100,Math.round((wealth()/(CH_RANKS[Math.min(CH_RANKS.length-1,CH_RANKS.findIndex(x=>x[0]>wealth())<0?CH_RANKS.length-1:CH_RANKS.findIndex(x=>x[0]>wealth()))]?.[0]||wealth()+1))*100))}%"></div></div><span class="small">${a}/${CH_ACH.length} Erfolge</span></div></div>
+ <div class="retroBox"><h3>★ AUFTRAG DES TAGES</h3><div class="boxBody"><b>${o[0]}</b><br>${o[1]}<br><span class="good">Belohnung: +${money(o[2])}</span><br><button class="smallBtn" onclick="claimOrder()" ${orderDone()?'disabled':''}>${orderDone()?'ERLEDIGT':'AUFTRAG PRÜFEN'}</button></div></div>
+ </div>`;
+}
+const _oldHome=pages.home;
+pages.home=function(){_oldHome();const app=document.getElementById('app');app.innerHTML+=expandedHome()+classicAchievements()+classicActivityLog()+classicSpecialCars();};
+const _oldBusiness=pages.business;
+pages.business=function(){_oldBusiness();const app=document.getElementById('app');app.innerHTML+=`<div class="retroBox" style="margin-top:8px"><h3>★ GESCHÄFTSAUSBAU</h3><div class="boxBody"><table><tr><th>Geschäft</th><th>Stufe</th><th>Bonus</th><th>Ausbau</th></tr>${BUSINESSES.map((b,i)=>{const n=game.businesses[i]||0,lvl=Number(game.bizLevels?.[i]||1),cost=Math.round(b.cost*(.55+.45*lvl));return `<tr><td>${esc(b.name)}</td><td>${n?lvl+'/5':'—'}</td><td>${n?'+'+((lvl-1)*12)+' %':'—'}</td><td>${n&&lvl<5?`<button onclick="upgradeBusiness(${i})">${money(cost)}</button>`:'—'}</td></tr>`}).join('')}</table></div></div>`;};
+const _oldTravel=pages.travel;
+pages.travel=function(){_oldTravel();const app=document.getElementById('app');app.innerHTML+=`<div class="retroBox" style="margin-top:8px"><h3>★ STADTCHARAKTER</h3><div class="boxBody">${esc(cityFlavor(game.place))}<br><span class="small">Jede Stadt besitzt eigene Preisprofile. Vergleiche die Marktpreise vor der nächsten Reise.</span></div></div>`;};
+const _oldStats=pages.stats;
+pages.stats=function(){_oldStats();const app=document.getElementById('app');const r=rank();app.innerHTML+=`<div class="retroBox" style="margin-top:8px"><h3>★ KARRIERE</h3><div class="boxBody"><b>${r[1]}</b> · Gesamtvermögen ${money(wealth())}<br>Erfolge: ${CH_ACH.filter(x=>x[1]()).length}/${CH_ACH.length}<br>Aufträge: ${game.completedOrders||0}<br>Zufallsereignisse: ${game.events||0}</div></div><div class="retroBox" style="margin-top:8px"><h3>★ ALLE ERFOLGE</h3><div class="boxBody">${CH_ACH.map(x=>`<div class="achievement ${x[1]()?'done':'' }" style="padding:3px 0"><b>${x[1]()?'✓':'○'} ${x[0]}</b> – ${x[2]}</div>`).join('')}</div></div>`;};
+const _oldBuyCar=buyCar;
+buyCar=function(i){_oldBuyCar(i);saveGame();};
+const _oldSave=saveGame;
+saveGame=function(){ensureExpansionState();localStorage.setItem('cityHustleClassicPrivate',JSON.stringify(game));};
+
+game=fresh();initStock();
+ensureExpansionState();
+const saved=localStorage.getItem("cityHustleClassicPrivate");
+if(saved){
+ try{
+  const loaded=JSON.parse(saved);
+  if(!loaded || typeof loaded!=="object") throw new Error("invalid save");
+  game={...fresh(),...loaded};
+  game.version=5;
+  game.money=Math.max(0,Number(game.money)||0);
+  game.bank=Math.max(0,Number(game.bank)||0);
+  game.day=Math.max(1,Math.floor(Number(game.day)||1));
+  game.lic=Math.max(0,Math.min(12,Math.floor(Number(game.lic)||0)));
+  game.car=Math.max(0,Math.min(CARS.length-1,Math.floor(Number(game.car)||0)));
+  game.place=PLACES.some(p=>p[0]===game.place)?game.place:"München";
+  game.stock=(game.stock&&typeof game.stock==="object")?game.stock:{};
+  game.businesses=(game.businesses&&typeof game.businesses==="object")?game.businesses:{};
+  game.staff=(game.staff&&typeof game.staff==="object")?game.staff:{};
+  game.ownedCars=Array.isArray(game.ownedCars)?game.ownedCars.filter(i=>Number.isInteger(i)&&i>=0&&i<CARS.length):[0];
+  if(!game.ownedCars.includes(0))game.ownedCars.unshift(0);
+  game.log=Array.isArray(game.log)?game.log.map(String):[];
+  game.totalProfit=Math.max(0,Number(game.totalProfit)||0);
+  game.totalBought=Math.max(0,Number(game.totalBought)||0);
+  game.totalSold=Math.max(0,Number(game.totalSold)||0);
+  game.trips=Math.max(0,Number(game.trips)||0);
+  game.events=Math.max(0,Number(game.events)||0);
+  initStock();
+  for(const g of GOODS) game.stock[g.name]=Math.max(0,Math.floor(Number(game.stock[g.name])||0));
+  ensureExpansionState();
+ }catch(e){
+  game=fresh();initStock();
+  localStorage.removeItem("cityHustleClassicPrivate");
+ }
+}
+log("Spiel bereit.");
+render();
+</script>
+<div id="classicFooter" class="classicNav" style="justify-content:center">
+<a href="#" onclick="saveGame();return false">SPIEL SPEICHERN</a>
+<a href="#" onclick="loadGame();return false">SPIEL LADEN</a>
+<a href="#" onclick="newGame();return false">NEUES SPIEL</a>
+</div></body>
+</html>
